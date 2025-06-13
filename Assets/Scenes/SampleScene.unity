@@ -445,8 +445,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de6f6cd30a7e38e48b21e938819b530e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minForce: 1
-  maxForce: 500
+  minForce: 250
+  maxForce: 750
+  incrementValue: 0.5
   rb: {fileID: 2038710071}
 --- !u!54 &2038710071
 Rigidbody:
