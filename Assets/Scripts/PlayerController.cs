@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
             if (holdDuration >= 1f)
             {
                 isKeyDown = false;
-                print("SHUT UP");
+                print("SHUT UP"); // so rude :,<
             }
         }
     }
@@ -46,58 +46,86 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void MovementInput ()
     {
-            //Check if player wants to go forward (z) and is on ground
-            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && OnGroundCheck())
-            {
-                holdDuration = 0f;
-                isKeyDown = true;
-            }
-            //When player stops holding button, move
-            if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) && OnGroundCheck())
-            {
-                isKeyDown = false;
-                float force = Mathf.Lerp(minForce, maxForce, holdDuration);
-                rb.AddForce(0, 0, force);
-            }
+        //Check if player wants to go forward (z) and is on ground
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && OnGroundCheck())
+        {
+            holdDuration = 0f;
+            isKeyDown = true;
+        }
+        //When player stops holding button, move
+        if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) && OnGroundCheck()) // potential for bug with OnGroundCheck here if moved by other force
+        {
+            isKeyDown = false;
+            float force = Mathf.Lerp(minForce, maxForce, holdDuration);
+            //Vector3 forceVector = new Vector3(0, 1, force);
+            //var convertedForce = transform.InverseTransformDirection(forceVector);
+            //var downVector = GetCurrentLocalDownVector();
+            //var rotatedForce = Quaternion.AngleAxis(90, convertedForce) * downVector;
+            //rb.AddRelativeForce(convertedForce);
+            ////rb.AddRelativeForce(0, 1, force);
 
-            //(-z)
-            if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && OnGroundCheck())
-            {
-                holdDuration = 0f;
-                isKeyDown = true;
-            }
-            if ((Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)) && OnGroundCheck())
-            {
-                isKeyDown = false;
-                float force = Mathf.Lerp(minForce, maxForce, holdDuration);
-                rb.AddForce(0, 0, -force);
-            }
+            var downVector = GetCurrentLocalDownVector();
+            print("down dir: " + downVector);
+            var convertedRotationAxis = transform.InverseTransformDirection(-transform.right);
+            var forceDir = Quaternion.AngleAxis(90, convertedRotationAxis) * downVector;
+            var forceToApply = force * forceDir;
+            print("force dir: " + forceDir);
+            print(forceToApply);
+            rb.AddRelativeForce(forceToApply);
 
-            //(-x)
-            if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && OnGroundCheck())
-            {
-                holdDuration = 0f;
-                isKeyDown = true;
-            }
-            if ((Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow)) && OnGroundCheck())
-            {
-                isKeyDown = false;
-                float force = Mathf.Lerp(minForce, maxForce, holdDuration);
-                rb.AddForce(-force, 0, 0);
-            }
 
-            //(x)
-            if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && OnGroundCheck())
-            {
+
+        }
+
+        //(-z)
+        if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && OnGroundCheck())
+        {
+            holdDuration = 0f;
+            isKeyDown = true;
+        }
+        if ((Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)) && OnGroundCheck())
+        {
+            isKeyDown = false;
+            float force = Mathf.Lerp(minForce, maxForce, holdDuration);
+            var convertedForce = transform.InverseTransformDirection(0, 1, -force);
+            rb.AddRelativeForce(convertedForce);
+            //rb.AddForce(0, 1, -force);
+            //rb.AddRelativeForce(0, 1, -force);
+
+        }
+
+        //(-x)
+        if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && OnGroundCheck())
+        {
                 holdDuration = 0f;
                 isKeyDown = true;
-            }
-            if ((Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow)) && OnGroundCheck())
-            {
-                isKeyDown = false;
-                float force = Mathf.Lerp(minForce, maxForce, holdDuration);
-                rb.AddForce(force, 0, 0);
-            }
+        }
+        if ((Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow)) && OnGroundCheck())
+        {
+            isKeyDown = false;
+            float force = Mathf.Lerp(minForce, maxForce, holdDuration);
+            var convertedForce = transform.InverseTransformDirection(-force, 1, 0);
+            rb.AddRelativeForce(convertedForce);
+            //rb.AddRelativeForce(-force, 1, 0);
+            //rb.AddForce(-force, 1, 0);
+        }
+
+        //(x)
+        if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && OnGroundCheck())
+        {
+            holdDuration = 0f;
+            isKeyDown = true;
+        }
+        if ((Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow)) && OnGroundCheck())
+        {
+            isKeyDown = false;
+            float force = Mathf.Lerp(minForce, maxForce, holdDuration);
+            var convertedForce = transform.InverseTransformDirection(force, 1, 0);
+            
+            rb.AddRelativeForce(convertedForce);
+            //rb.AddRelativeForce(force, 1, 0);
+            //rb.AddForce(force, 1, 0);
+        }
     }
 
     bool OnGroundCheck()
@@ -112,5 +140,18 @@ public class PlayerController : MonoBehaviour
             }
         }
         return false;
+    }
+
+    Vector3 GetCurrentLocalDownVector()
+    {
+        foreach (var direction in raycastDirections)
+        { // ITS GETTING ME THE WORLD DOWN VECTOR >:(
+            if (Physics.Raycast(transform.localPosition, direction, raycastLength))
+            {
+                //print("Contact");
+                return direction;
+            }
+        }
+        return Vector3.zero;
     }
 }
