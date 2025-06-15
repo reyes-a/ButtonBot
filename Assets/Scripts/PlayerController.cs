@@ -5,15 +5,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movement")] //Organization!!! Life changing
     [SerializeField] float minForce = 1f;
     [SerializeField] float maxForce = 100f;
     private float holdDuration;
     [SerializeField] float incrementValue = 0.1f;
-
     private bool isKeyDown = false;
-    [SerializeField] bool contact = false;
-
     [SerializeField] Rigidbody rb; //It means rigidbody
+
+    [Header("Raycast")]
+    [SerializeField] float raycastLength = 0.6f;
+    private Vector3[] raycastDirections = new Vector3[] {Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back};
 
     // Start is called before the first frame update
     void Start()
@@ -25,23 +27,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         MovementInput(); //Calls the whole function
-
-        //Check if player is touching the ground from all six faces
-        if (Physics.Raycast(transform.position, transform.TransformDirection(0f, -0.2f, 0f), 0.5f) || 
-            Physics.Raycast(transform.position, transform.TransformDirection(0f, 0.2f, 0f), 0.5f) ||
-            Physics.Raycast(transform.position, transform.TransformDirection(-0.2f, 0f, 0f), 0.5f) ||
-            Physics.Raycast(transform.position, transform.TransformDirection(0.2f, 0f, 0f), 0.5f) ||
-            Physics.Raycast(transform.position, transform.TransformDirection(0f, 0f, -0.2f), 0.5f) ||
-            Physics.Raycast(transform.position, transform.TransformDirection(0f, 0f, 0.2f), 0.5f))
-        {
-            contact = true;
-            print("Contact");
-        }
-        else
-        {
-            contact = false;
-            print("No contact");
-        }
 
         if (isKeyDown == true)
         {
@@ -61,18 +46,14 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void MovementInput ()
     {
-        //Check if player is on the ground
-        if (contact == true)
-        {
-            print("On ground!");
-            //Check if player wants to go forward (z)
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            //Check if player wants to go forward (z) and is on ground
+            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && OnGroundCheck())
             {
                 holdDuration = 0f;
                 isKeyDown = true;
             }
             //When player stops holding button, move
-            if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
+            if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) && OnGroundCheck())
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
@@ -80,12 +61,12 @@ public class PlayerController : MonoBehaviour
             }
 
             //(-z)
-            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && OnGroundCheck())
             {
                 holdDuration = 0f;
                 isKeyDown = true;
             }
-            if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow))
+            if ((Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)) && OnGroundCheck())
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
@@ -93,12 +74,12 @@ public class PlayerController : MonoBehaviour
             }
 
             //(-x)
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && OnGroundCheck())
             {
                 holdDuration = 0f;
                 isKeyDown = true;
             }
-            if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow))
+            if ((Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow)) && OnGroundCheck())
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
@@ -106,17 +87,30 @@ public class PlayerController : MonoBehaviour
             }
 
             //(x)
-            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && OnGroundCheck())
             {
                 holdDuration = 0f;
                 isKeyDown = true;
             }
-            if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
+            if ((Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow)) && OnGroundCheck())
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
                 rb.AddForce(force, 0, 0);
             }
+    }
+
+    bool OnGroundCheck()
+    {
+        //Check if player is touching the ground from all six faces
+        foreach (var direction in raycastDirections)
+        {
+            if (Physics.Raycast(transform.position, direction, raycastLength))
+            {
+                print("Contact");
+                return true;
+            }
         }
+        return false;
     }
 }
