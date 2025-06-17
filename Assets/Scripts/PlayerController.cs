@@ -56,8 +56,8 @@ public class PlayerController : MonoBehaviour
             if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) && OnGroundCheck())
             {
                 isKeyDown = false;
-                float force = Mathf.Lerp(minForce, maxForce, holdDuration);
-                rb.AddForce(0, 0, force);
+                float force = Mathf.Lerp(minForce, maxForce, holdDuration); //Local variable. Lerps are for guesstimation between values
+                rb.AddForceAtPosition(new Vector3(0f, 0f, force), transform.position + new Vector3(0f, 0.2f, 0f)); //It wants a Vector3, and I have floats, so I have to make a new one
             }
 
             //(-z)
@@ -70,8 +70,8 @@ public class PlayerController : MonoBehaviour
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
-                rb.AddForce(0, 0, -force);
-            }
+                rb.AddForceAtPosition(new Vector3(0f, 0f, -force), transform.position + new Vector3(0f, 0.2f, 0f));
+        }
 
             //(-x)
             if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && OnGroundCheck())
@@ -83,8 +83,8 @@ public class PlayerController : MonoBehaviour
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
-                rb.AddForce(-force, 0, 0);
-            }
+                rb.AddForceAtPosition(new Vector3(-force, 0f, 0f), transform.position + new Vector3(0f, 0.2f, 0f));
+        }
 
             //(x)
             if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && OnGroundCheck())
@@ -96,8 +96,8 @@ public class PlayerController : MonoBehaviour
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
-                rb.AddForce(force, 0, 0);
-            }
+                rb.AddForceAtPosition(new Vector3(force, 0f, 0f), transform.position + new Vector3(0f, 0.2f, 0f));
+        }
     }
 
     bool OnGroundCheck()
