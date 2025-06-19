@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
             if (holdDuration >= 1f)
             {
                 isKeyDown = false;
-                print("SHUT UP");
+                print("Movement Maximum");
             }
         }
     }
@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
                 return true;
             }
         }
+        //print("No contact");
         return false;
     }
 }
