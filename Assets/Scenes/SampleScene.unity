@@ -119,6 +119,47 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &74222014 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -1346437154415464734, guid: b4efdc8fef1dde8459a9d4724e0aad54, type: 3}
+  m_PrefabInstance: {fileID: 1328034052}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &74222018
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 74222014}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7831919147004791885, guid: b4efdc8fef1dde8459a9d4724e0aad54, type: 3}
+--- !u!114 &74222019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 74222014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d86347c718e64a641a33551d5cbb8b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPressed: 0
+  shouldButtonActivate: 1
 --- !u!1 &259451690
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,6 +761,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b4efdc8fef1dde8459a9d4724e0aad54, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1877898273}
+    - targetCorrespondingSourceObject: {fileID: -1346437154415464734, guid: b4efdc8fef1dde8459a9d4724e0aad54, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 74222018}
+    - targetCorrespondingSourceObject: {fileID: -1346437154415464734, guid: b4efdc8fef1dde8459a9d4724e0aad54, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 74222019}
   m_SourcePrefab: {fileID: 100100000, guid: b4efdc8fef1dde8459a9d4724e0aad54, type: 3}
 --- !u!4 &1328034053 stripped
 Transform:

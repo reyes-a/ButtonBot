@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
         MovementInput(); //Calls the whole function
 
+        //Check how long the player holds the movement keys
         if (isKeyDown == true)
         {
             holdDuration = Mathf.Clamp(holdDuration + (incrementValue * Time.deltaTime), 0f, 1f);
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
             {
                 holdDuration = 0f;
                 isKeyDown = true;
+                GetComponentInChildren<ButtonPress>().ResetButton(); //Allow the button to be pressed again
             }
             //When player stops holding button, move
             if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) && OnGroundCheck())
@@ -68,39 +70,42 @@ public class PlayerController : MonoBehaviour
             {
                 holdDuration = 0f;
                 isKeyDown = true;
+                GetComponentInChildren<ButtonPress>().ResetButton();
             }
             if ((Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)) && OnGroundCheck())
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
                 rb.AddForceAtPosition(new Vector3(0f, 0f, -force), transform.position + new Vector3(0f, 1.5f, 0f));
-        }
+            }
 
             //(-x)
             if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && OnGroundCheck())
             {
                 holdDuration = 0f;
                 isKeyDown = true;
+                GetComponentInChildren<ButtonPress>().ResetButton();
             }
             if ((Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow)) && OnGroundCheck())
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
                 rb.AddForceAtPosition(new Vector3(-force, 0f, 0f), transform.position + new Vector3(0f, 1.5f, 0f));
-        }
+            }
 
             //(x)
             if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && OnGroundCheck())
             {
                 holdDuration = 0f;
                 isKeyDown = true;
+                GetComponentInChildren<ButtonPress>().ResetButton();
             }
             if ((Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow)) && OnGroundCheck())
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
                 rb.AddForceAtPosition(new Vector3(force, 0f, 0f), transform.position + new Vector3(0f, 1.5f, 0f));
-        }
+            }
     }
 
     bool OnGroundCheck()
