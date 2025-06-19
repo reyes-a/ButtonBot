@@ -6,15 +6,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")] //Organization!!! Life changing
-    [SerializeField] float minForce = 1f;
-    [SerializeField] float maxForce = 100f;
+    [SerializeField] float minForce = 150f;
+    [SerializeField] float maxForce = 650f;
     private float holdDuration;
-    [SerializeField] float incrementValue = 0.1f;
+    [SerializeField] float incrementValue = 0.5f;
     private bool isKeyDown = false;
     [SerializeField] Rigidbody rb; //It means rigidbody
 
     [Header("Raycast")]
-    [SerializeField] float raycastLength = 0.6f;
+    [SerializeField] float raycastLength = 1.5f;
     private Vector3[] raycastDirections = new Vector3[] {Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back};
 
     // Start is called before the first frame update
@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Way to see which way and how far the ray is going. Hide and unhide as necessary
+        //Debug.DrawLine(transform.position, new Vector3(0f, 1.5f, 0f), Color.red); 
+
         MovementInput(); //Calls the whole function
 
         if (isKeyDown == true)
@@ -57,7 +60,7 @@ public class PlayerController : MonoBehaviour
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration); //Local variable. Lerps are for guesstimation between values
-                rb.AddForceAtPosition(new Vector3(0f, 0f, force), transform.position + new Vector3(0f, 0.2f, 0f)); //It wants a Vector3, and I have floats, so I have to make a new one
+                rb.AddForceAtPosition(new Vector3(0f, 0f, force), transform.position + new Vector3(0f, 1.5f, 0f)); //It wants a Vector3, and I have floats, so I have to make a new one
             }
 
             //(-z)
@@ -70,7 +73,7 @@ public class PlayerController : MonoBehaviour
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
-                rb.AddForceAtPosition(new Vector3(0f, 0f, -force), transform.position + new Vector3(0f, 0.2f, 0f));
+                rb.AddForceAtPosition(new Vector3(0f, 0f, -force), transform.position + new Vector3(0f, 1.5f, 0f));
         }
 
             //(-x)
@@ -83,7 +86,7 @@ public class PlayerController : MonoBehaviour
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
-                rb.AddForceAtPosition(new Vector3(-force, 0f, 0f), transform.position + new Vector3(0f, 0.2f, 0f));
+                rb.AddForceAtPosition(new Vector3(-force, 0f, 0f), transform.position + new Vector3(0f, 1.5f, 0f));
         }
 
             //(x)
@@ -96,7 +99,7 @@ public class PlayerController : MonoBehaviour
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
-                rb.AddForceAtPosition(new Vector3(force, 0f, 0f), transform.position + new Vector3(0f, 0.2f, 0f));
+                rb.AddForceAtPosition(new Vector3(force, 0f, 0f), transform.position + new Vector3(0f, 1.5f, 0f));
         }
     }
 
