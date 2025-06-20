@@ -158,8 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86347c718e64a641a33551d5cbb8b57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPressed: 0
-  shouldButtonActivate: 1
+  shouldButtonActivate: 0
   buddyRange: 10
 --- !u!1 &259451690
 GameObject:
@@ -252,7 +251,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &320734981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,7 +346,7 @@ Transform:
   m_GameObject: {fileID: 320734980}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.51, y: 0.43, z: 5.69}
+  m_LocalPosition: {x: 5.51, y: 2.32, z: 5.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -812,7 +811,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1043572645
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -948,6 +947,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rotations:
   - {x: 0, y: 45, z: 0}
+  - {x: 45, y: 0, z: 0}
+  - {x: 0, y: 0, z: 45}
   currentRotation: 0
 --- !u!65 &1071893701
 BoxCollider:
@@ -1031,7 +1032,7 @@ Transform:
   m_GameObject: {fileID: 1071893699}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.38, y: 0.43, z: 5.69}
+  m_LocalPosition: {x: 7.38, y: 1.22, z: 5.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1290,7 +1291,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d86347c718e64a641a33551d5cbb8b57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPressed: 0
   shouldButtonActivate: 1
   buddyRange: 50
 --- !u!1001 &4419484172969355660

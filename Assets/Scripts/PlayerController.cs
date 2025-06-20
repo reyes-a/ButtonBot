@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
         if (isKeyDown == true)
         {
             holdDuration = Mathf.Clamp(holdDuration + (incrementValue * Time.deltaTime), 0f, 1f);
-            print(holdDuration);
+            //print(holdDuration);
 
             if (holdDuration >= 1f)
             {

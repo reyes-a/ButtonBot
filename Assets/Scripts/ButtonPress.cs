@@ -6,8 +6,7 @@ using UnityEngine;
 public class ButtonPress : MonoBehaviour
 {
     [Header("Button Function")]
-    public bool isPressed = false;
-    public bool shouldButtonActivate = true; //Need to stop the button from being pressed twice
+    public bool shouldButtonActivate = true; //Need to stop the button from being pressed twice. Bugged for literally no reason???
 
     [Header("CallBuddy")]
     public float buddyRange = 20f;
@@ -27,9 +26,9 @@ public class ButtonPress : MonoBehaviour
     //When player lands on the button face, stop it from happening again until reset
     void OnTriggerEnter(Collider other)
     {
+        print("Trigger Enter");
         if (shouldButtonActivate == true)
         {
-            isPressed = true;
             shouldButtonActivate = false;
             print("Button pressed!");
             CallBuddy();
@@ -39,7 +38,7 @@ public class ButtonPress : MonoBehaviour
     //Allow for the button to be pressed again
     public void ResetButton()
     {
-        isPressed = false;
+        print("Reset");
         shouldButtonActivate = true;
     }
 

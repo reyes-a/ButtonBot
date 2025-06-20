@@ -33,11 +33,17 @@ public class BuddyMove_Rotate : MonoBehaviour, IBuddy
     //What do I want it to do? Find value of index and pass to function... compare to the length of the list and get it to start over when it's done
     public void BuddyAction()
     {
-        if (currentRotation == 0)
+        if (currentRotation <= (Rotations.Length - 1))
         {
+           // print(currentRotation);
             transform.Rotate(Rotations[currentRotation]);
-            print("Rotated!");
-            currentRotation = currentRotation++;
+            print("Rotated! " + currentRotation);
+            currentRotation ++;
+           // print(currentRotation);
+        }
+        else
+        {
+            print("No rotation");
         }
     }
 }
