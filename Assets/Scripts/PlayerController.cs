@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        moveCharge.SetMaxHold(maxHold);
+        //moveCharge.SetMaxHold(maxHold);
     }
 
     // Update is called once per frame
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
     public void MovementInput()
     {
             //Check if player wants to go forward (z) and is on ground
-            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && OnGroundCheck())
+            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && OnGroundCheckRaycast())
             {
 
                 holdDuration = 0f;
@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
                 GetComponentInChildren<ButtonPress>().ResetButton(); //Allow the button to be pressed again
             }
             //When player stops holding button, move
-            if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) && OnGroundCheck())
+            if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) && OnGroundCheckRaycast())
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration); //Local variable. Lerps are for guesstimation between values
@@ -72,13 +72,13 @@ public class PlayerController : MonoBehaviour
             }
 
             //(-z)
-            if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && OnGroundCheck())
+            if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && OnGroundCheckRaycast())
             {
                 holdDuration = 0f;
                 isKeyDown = true;
                 GetComponentInChildren<ButtonPress>().ResetButton();
             }
-            if ((Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)) && OnGroundCheck())
+            if ((Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)) && OnGroundCheckRaycast())
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
@@ -86,13 +86,13 @@ public class PlayerController : MonoBehaviour
             }
 
             //(-x)
-            if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && OnGroundCheck())
+            if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && OnGroundCheckRaycast())
             {
                 holdDuration = 0f;
                 isKeyDown = true;
                 GetComponentInChildren<ButtonPress>().ResetButton();
             }
-            if ((Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow)) && OnGroundCheck())
+            if ((Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow)) && OnGroundCheckRaycast())
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
@@ -100,13 +100,13 @@ public class PlayerController : MonoBehaviour
             }
 
             //(x)
-            if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && OnGroundCheck())
+            if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && OnGroundCheckRaycast())
             {
                 holdDuration = 0f;
                 isKeyDown = true;
                 GetComponentInChildren<ButtonPress>().ResetButton();
             }
-            if ((Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow)) && OnGroundCheck())
+            if ((Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow)) && OnGroundCheckRaycast())
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
             }
     }
 
-    bool OnGroundCheck()
+    bool OnGroundCheckRaycast()
     {
         //Check if player is touching the ground from all six faces
         foreach (var direction in raycastDirections)

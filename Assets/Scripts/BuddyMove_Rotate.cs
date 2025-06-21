@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,7 +10,7 @@ public class BuddyMove_Rotate : MonoBehaviour, IBuddy
     [SerializeField] Vector3[] Rotations;
     int rotationsIndex = 0;
     bool doRotateToTarget = false;
-    Quaternion startRot;
+    Vector3 startRot;
     Vector3 targetRot;
     /// <summary>
     /// Value that the movement lerp value increments each tick
@@ -60,8 +61,8 @@ public class BuddyMove_Rotate : MonoBehaviour, IBuddy
 
     void StartRotateToTarget()
     {
-        startRot = transform.rotation;
-        targetRot = Rotations[rotationsIndex];
+        startRot = transform.rotation.eulerAngles;
+        targetRot = Rotations[rotationsIndex] + startRot;
         lerpMovementValue = 0;
         doRotateToTarget = true;
         print(this.gameObject.name + " - Starting rotate to with index: " + rotationsIndex);
@@ -71,9 +72,9 @@ public class BuddyMove_Rotate : MonoBehaviour, IBuddy
     {
         lerpMovementValue += Mathf.Clamp01(rateOfRotation * Time.fixedDeltaTime); // calculate new lerp value
         //transform.rotation =  new Quaternion(Mathf.Lerp(startRot.x, targetRot.x, lerpMovementValue), Mathf.Lerp(startRot.y, targetRot.y, lerpMovementValue), Mathf.Lerp(startRot.z, targetRot.z, lerpMovementValue), 5.91348e-43f);
-        //print(lerpMovementValue);
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(targetRot), lerpMovementValue);
-
-        if (lerpMovementValue == 1) { doRotateToTarget = false; } // if target pos reached, stop movement
+        print(this.gameObject.name + " lerp value = " + lerpMovementValue);
+        //transform.Rotate(Vector3.Lerp(startRot, targetRot, lerpMovementValue), Space.Self);
+        transform.localRotation = Quaternion.Euler (Vector3.Lerp(startRot, targetRot, lerpMovementValue));
+        if (lerpMovementValue >= 1) { doRotateToTarget = false; } // if target pos reached, stop movement
     }
 }

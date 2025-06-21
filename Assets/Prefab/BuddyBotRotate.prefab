@@ -125,8 +125,7 @@ MonoBehaviour:
   - {x: 0, y: 45, z: 0}
   - {x: 45, y: 0, z: 0}
   - {x: 0, y: 0, z: 45}
-  rotationsIndex: 0
-  rateOfRotation: 0.1
+  rateOfRotation: 1
 --- !u!1001 &7869751396391037991
 PrefabInstance:
   m_ObjectHideFlags: 0
