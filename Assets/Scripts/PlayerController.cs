@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -35,7 +34,7 @@ public class PlayerController : MonoBehaviour
         if (isKeyDown == true)
         {
             holdDuration = Mathf.Clamp(holdDuration + (incrementValue * Time.deltaTime), 0f, 1f);
-            //print(holdDuration);
+            print(holdDuration);
 
             if (holdDuration >= 1f)
             {
@@ -53,6 +52,7 @@ public class PlayerController : MonoBehaviour
             //Check if player wants to go forward (z) and is on ground
             if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && OnGroundCheck())
             {
+
                 holdDuration = 0f;
                 isKeyDown = true;
                 GetComponentInChildren<ButtonPress>().ResetButton(); //Allow the button to be pressed again
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
         foreach (var direction in raycastDirections)
         {
             if (Physics.Raycast(transform.position, direction, raycastLength))
-            {
+            { 
                 print("Contact");
                 return true;
             }

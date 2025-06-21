@@ -43,7 +43,11 @@ public class BuddyMove_Rotate : MonoBehaviour, IBuddy
         }
         else
         {
-            print("No rotation");
+            print("Reset Loop");
+            currentRotation = 0;
+            transform.Rotate(Rotations[currentRotation]);
+            print("Rotated! " + currentRotation);
+            currentRotation++;
         }
     }
 }
