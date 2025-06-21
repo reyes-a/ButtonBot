@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")] //Organization!!! Life changing
     [SerializeField] float minForce = 150f;
     [SerializeField] float maxForce = 650f;
-    private float holdDuration;
     [SerializeField] float incrementValue = 0.5f;
     private bool isKeyDown = false;
     [SerializeField] Rigidbody rb; //It means rigidbody
@@ -17,9 +16,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float raycastLength = 1.5f;
     private Vector3[] raycastDirections = new Vector3[] {Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back};
 
+    [Header("UI")]
+    [SerializeField]
+    private MoveChargeUI moveCharge;
+    public float maxHold = 1f;
+    public float holdDuration;
+
     // Start is called before the first frame update
     void Start()
     {
+        moveCharge.SetMaxHold(maxHold);
     }
 
     // Update is called once per frame
@@ -34,9 +40,9 @@ public class PlayerController : MonoBehaviour
         if (isKeyDown == true)
         {
             holdDuration = Mathf.Clamp(holdDuration + (incrementValue * Time.deltaTime), 0f, 1f);
-            print(holdDuration);
+            //print(holdDuration);
 
-            if (holdDuration >= 1f)
+            if (holdDuration >= maxHold)
             {
                 isKeyDown = false;
                 print("Movement Maximum");
@@ -47,7 +53,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// All the player movement stuff
     /// </summary>
-    void MovementInput ()
+    public void MovementInput()
     {
             //Check if player wants to go forward (z) and is on ground
             if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && OnGroundCheck())
@@ -121,5 +127,13 @@ public class PlayerController : MonoBehaviour
         }
         //print("No contact");
         return false;
+    }
+
+    public void SetMoveCharge(float holdChange)
+    {
+        holdDuration += holdChange;
+        holdDuration = Mathf.Clamp(holdDuration, 0f, maxHold);
+
+        moveCharge.SetHold(holdDuration);
     }
 }

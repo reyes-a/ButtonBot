@@ -37,18 +37,18 @@ public class BuddyMove_Position : MonoBehaviour, IBuddy
         print("Moved!");
         if (currentPos <= (MovementPositions.Length - 1))
         {
-            // print(currentRotation);
+            //print(currentPos);
             transform.position = MovementPositions[currentPos];
-            print("Rotated! " + currentPos);
+            print("Moved! " + currentPos);
             currentPos++;
-            // print(currentRotation);
+            //print(currentPos);
         }
         else
         {
             print("Reset Loop");
             currentPos = 0;
             transform.position = MovementPositions[currentPos];
-            print("Rotated! " + currentPos);
+            print("Moved! " + currentPos);
             currentPos++;
         }
     }
