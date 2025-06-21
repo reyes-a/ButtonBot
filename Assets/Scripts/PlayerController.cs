@@ -28,13 +28,13 @@ public class PlayerController : MonoBehaviour
         //Way to see which way and how far the ray is going. Hide and unhide as necessary
         //Debug.DrawLine(transform.position, new Vector3(0f, 1.5f, 0f), Color.red); 
 
-        MovementInput(); //Calls the whole function
-
         //Check how long the player holds the movement keys
+        MovementInput(); //Calls the whole function       
+
         if (isKeyDown == true)
         {
             holdDuration = Mathf.Clamp(holdDuration + (incrementValue * Time.deltaTime), 0f, 1f);
-            print(holdDuration);
+            print("Movement Keyhold Duration: " + holdDuration);
 
             if (holdDuration >= 1f)
             {
@@ -42,6 +42,11 @@ public class PlayerController : MonoBehaviour
                 print("Movement Maximum");
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        
     }
 
     /// <summary>
@@ -52,13 +57,13 @@ public class PlayerController : MonoBehaviour
             //Check if player wants to go forward (z) and is on ground
             if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && OnGroundCheck())
             {
-
+            print("Player Pressed Forward");
                 holdDuration = 0f;
                 isKeyDown = true;
                 GetComponentInChildren<ButtonPress>().ResetButton(); //Allow the button to be pressed again
             }
             //When player stops holding button, move
-            if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) && OnGroundCheck())
+            if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)))
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration); //Local variable. Lerps are for guesstimation between values
@@ -72,7 +77,7 @@ public class PlayerController : MonoBehaviour
                 isKeyDown = true;
                 GetComponentInChildren<ButtonPress>().ResetButton();
             }
-            if ((Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)) && OnGroundCheck())
+            if ((Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)))
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
@@ -86,7 +91,7 @@ public class PlayerController : MonoBehaviour
                 isKeyDown = true;
                 GetComponentInChildren<ButtonPress>().ResetButton();
             }
-            if ((Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow)) && OnGroundCheck())
+            if ((Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow)))
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
@@ -100,7 +105,7 @@ public class PlayerController : MonoBehaviour
                 isKeyDown = true;
                 GetComponentInChildren<ButtonPress>().ResetButton();
             }
-            if ((Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow)) && OnGroundCheck())
+            if ((Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow)))
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);

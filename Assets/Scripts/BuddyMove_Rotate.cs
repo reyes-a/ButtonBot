@@ -7,7 +7,15 @@ public class BuddyMove_Rotate : MonoBehaviour, IBuddy
 {
     [Header("Design: Rotation Directions")]
     [SerializeField] Vector3[] Rotations;
-    public int currentRotation = 0;
+    int rotationsIndex = 0;
+    bool doRotateToTarget = false;
+    Quaternion startRot;
+    Vector3 targetRot;
+    /// <summary>
+    /// Value that the movement lerp value increments each tick
+    /// </summary>
+    [SerializeField] float rateOfRotation = 0.1f;
+    float lerpMovementValue = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +27,14 @@ public class BuddyMove_Rotate : MonoBehaviour, IBuddy
     void Update()
     {
         
+    }
+
+    private void FixedUpdate()
+    {
+        if (doRotateToTarget)
+        {
+            RotateToTarget();
+        }
     }
 
     //Where is it?
@@ -33,21 +49,31 @@ public class BuddyMove_Rotate : MonoBehaviour, IBuddy
     //What do I want it to do? Find value of index and pass to function... compare to the length of the list and get it to start over when it's done
     public void BuddyAction()
     {
-        if (currentRotation <= (Rotations.Length - 1))
-        {
-           // print(currentRotation);
-            transform.Rotate(Rotations[currentRotation]);
-            print("Rotated! " + currentRotation);
-            currentRotation ++;
-           // print(currentRotation);
-        }
-        else
+        if (rotationsIndex > (Rotations.Length - 1))
         {
             print("Reset Loop");
-            currentRotation = 0;
-            transform.Rotate(Rotations[currentRotation]);
-            print("Rotated! " + currentRotation);
-            currentRotation++;
+            rotationsIndex = 0;
         }
+        StartRotateToTarget();
+        rotationsIndex++;
+    }
+
+    void StartRotateToTarget()
+    {
+        startRot = transform.rotation;
+        targetRot = Rotations[rotationsIndex];
+        lerpMovementValue = 0;
+        doRotateToTarget = true;
+        print(this.gameObject.name + " - Starting rotate to with index: " + rotationsIndex);
+    }
+
+    void RotateToTarget()
+    {
+        lerpMovementValue += Mathf.Clamp01(rateOfRotation * Time.fixedDeltaTime); // calculate new lerp value
+        //transform.rotation =  new Quaternion(Mathf.Lerp(startRot.x, targetRot.x, lerpMovementValue), Mathf.Lerp(startRot.y, targetRot.y, lerpMovementValue), Mathf.Lerp(startRot.z, targetRot.z, lerpMovementValue), 5.91348e-43f);
+        //print(lerpMovementValue);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(targetRot), lerpMovementValue);
+
+        if (lerpMovementValue == 1) { doRotateToTarget = false; } // if target pos reached, stop movement
     }
 }
