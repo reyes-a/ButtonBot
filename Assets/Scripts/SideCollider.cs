@@ -6,14 +6,21 @@ public class SideCollider : MonoBehaviour
 {
     public bool isTouching = false;
 
-    private void OnTriggerEnter(Collider other)
+    void OnCollisionEnter()
     {
-        print(name + " side trigger enter " + other.name);
-        if (!other.CompareTag("Player")) { print(name + " triggerEnter NOT PLAYER!!"); isTouching = true; }
+        //print("We're trying");
+        //print(name + " side trigger enter " + other.name);
+        //if (!other.CompareTag("Player")) { print(name + " triggerEnter NOT PLAYER!!"); isTouching = true; }
+        if (isTouching == false)
+        {
+            //print("No");
+            isTouching = true;
+            print("Contact");
+        }        
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit()
     {
-        if (!other.CompareTag("Player")) { print(name + " triggerExit"); isTouching = false; }
+        //if (!other.CompareTag("Player")) { print(name + " triggerExit"); isTouching = false; }
     }
 }

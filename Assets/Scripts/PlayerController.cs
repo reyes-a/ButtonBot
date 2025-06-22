@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour
     [Header("Ground Check")]
     [SerializeField] float raycastLength = 1.5f;
     private Vector3[] raycastDirections = new Vector3[] {Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back};
-    [SerializeField] SideCollider[] sideColliders;
+    //[SerializeField] SideCollider[] sideColliders;
+    [SerializeField] SideCollider sideCollider;
 
     [Header("UI")]
     [SerializeField]
@@ -24,7 +25,10 @@ public class PlayerController : MonoBehaviour
     public float maxHold = 1f;
     public float holdDuration;
 
-    bool appyForceRight = false;
+    bool applyForceRight = false;
+    bool applyForceLeft = false;
+    bool applyForceForward = false;
+    bool applyForceBackward = false;
 
 
     // Start is called before the first frame update
@@ -63,17 +67,21 @@ public class PlayerController : MonoBehaviour
         //Check if player wants to go forward (z) and is on ground
         if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && CanMoveCheck())
         {
-
             holdDuration = 0f;
             isKeyDown = true;
             GetComponentInChildren<ButtonPress>().ResetButton(); //Allow the button to be pressed again
+            applyForceForward = true;
         }
         //When player stops holding button, move
         if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
         {
-            isKeyDown = false;
-            float force = Mathf.Lerp(minForce, maxForce, holdDuration); //Local variable. Lerps are for guesstimation between values
-            rb.AddForceAtPosition(new Vector3(0f, 0f, force), transform.position + new Vector3(0f, 1.5f, 0f)); //It wants a Vector3, and I have floats, so I have to make a new one
+            if (applyForceForward)
+            {
+                isKeyDown = false;
+                float force = Mathf.Lerp(minForce, maxForce, holdDuration); //Local variable. Lerps are for guesstimation between values
+                rb.AddForceAtPosition(new Vector3(0f, 0f, force), transform.position + new Vector3(0f, 1.5f, 0f)); //It wants a Vector3, and I have floats, so I have to make a new one
+                applyForceForward = false;
+            }
         }
 
         //(-z)
@@ -82,12 +90,17 @@ public class PlayerController : MonoBehaviour
             holdDuration = 0f;
             isKeyDown = true;
             GetComponentInChildren<ButtonPress>().ResetButton();
+            applyForceBackward = true;
         }
         if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow))
         {
-            isKeyDown = false;
-            float force = Mathf.Lerp(minForce, maxForce, holdDuration);
-            rb.AddForceAtPosition(new Vector3(0f, 0f, -force), transform.position + new Vector3(0f, 1.5f, 0f));
+            if (applyForceBackward)
+            {
+                isKeyDown = false;
+                float force = Mathf.Lerp(minForce, maxForce, holdDuration);
+                rb.AddForceAtPosition(new Vector3(0f, 0f, -force), transform.position + new Vector3(0f, 1.5f, 0f));
+                applyForceBackward = false;
+            }
         }
 
         //(-x)
@@ -96,12 +109,17 @@ public class PlayerController : MonoBehaviour
             holdDuration = 0f;
             isKeyDown = true;
             GetComponentInChildren<ButtonPress>().ResetButton();
+            applyForceLeft = true;
         }
         if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow))
         {
-            isKeyDown = false;
-            float force = Mathf.Lerp(minForce, maxForce, holdDuration);
-            rb.AddForceAtPosition(new Vector3(-force, 0f, 0f), transform.position + new Vector3(0f, 1.5f, 0f));
+            if (applyForceLeft)
+            {
+                isKeyDown = false;
+                float force = Mathf.Lerp(minForce, maxForce, holdDuration);
+                rb.AddForceAtPosition(new Vector3(-force, 0f, 0f), transform.position + new Vector3(0f, 1.5f, 0f));
+                applyForceLeft = false;
+            }
         }
 
         //(x)
@@ -110,46 +128,52 @@ public class PlayerController : MonoBehaviour
             holdDuration = 0f;
             isKeyDown = true;
             GetComponentInChildren<ButtonPress>().ResetButton();
-            appyForceRight = true;
+            applyForceRight = true;
         }
         if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
         {
-            if (appyForceRight)
+            if (applyForceRight)
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
                 rb.AddForceAtPosition(new Vector3(force, 0f, 0f), transform.position + new Vector3(0f, 1.5f, 0f));
-                appyForceRight = false;
+                applyForceRight = false;
             }
         }
     }
 
-    bool OnGroundCheckRaycast()
-    {
-        //Check if player is touching the ground from all six faces
-        foreach (var direction in raycastDirections)
-        {
-            if (Physics.Raycast(transform.position, direction, raycastLength))
-            { 
-                print("Contact");
-                return true;
-            }
-        }
-        //print("No contact");
-        return false;
-    }
+    //bool OnGroundCheckRaycast()
+    //{
+    //    //Check if player is touching the ground from all six faces
+    //    foreach (var direction in raycastDirections)
+    //    {
+    //        if (Physics.Raycast(transform.position, direction, raycastLength))
+    //        { 
+    //            print("Contact");
+    //            return true;
+    //        }
+    //    }
+    //    //print("No contact");
+    //    return false;
+    //}
 
     bool OnGroundCheckColliders()
     {
-        foreach (var side in sideColliders)
+        //foreach (var side in sideColliders)
+        //{
+        //    if (side.isTouching == true)
+        //    {
+        //        print("groundCheckCollider true: " + side.name );
+        //        return true;
+        //    }
+        //}
+        //print("groundCheckCollider returning false");
+        //return false;
+
+        if (sideCollider.isTouching == true)
         {
-            if (side.isTouching == true)
-            {
-                print("groundCheckCollider true: " + side.name );
-                return true;
-            }
+            return true;
         }
-        print("groundCheckCollider returning false");
         return false;
     }
 
@@ -157,7 +181,11 @@ public class PlayerController : MonoBehaviour
 
     bool CanMoveCheck()
     {
-        if (OnGroundCheckColliders() && rb.velocity.magnitude < 0.1f) { print("player speed = " + rb.velocity.magnitude); return true; }
+        print("Start CanMoveCheck");
+        if (OnGroundCheckColliders() && rb.velocity.magnitude < 0.1f) 
+        { 
+            print("player speed = " + rb.velocity.magnitude); return true; 
+        }
 
         print("moveCheckReturnFalse");
         return false;
