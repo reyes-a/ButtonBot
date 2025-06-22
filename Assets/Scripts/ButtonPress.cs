@@ -14,7 +14,9 @@ public class ButtonPress : MonoBehaviour
     float lerpScaleModifier = 0;
     [SerializeField] float rangeIndicatorScaleRate;
     [SerializeField] float rangeIndicatorHeight;
-    bool doScaleRangeIndicator = false;
+    bool doScaleRangeIndicatorIncrease = false;
+    bool doScaleRangeIndicatorDecrease = false;
+    [SerializeField] float rangeIndicatorScaleHesitate = 0.2f;
 
 
     // Start is called before the first frame update
@@ -26,9 +28,13 @@ public class ButtonPress : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (doScaleRangeIndicator)
+        if (doScaleRangeIndicatorIncrease)
         {
-            ScaleRangeIndicator();
+            ScaleRangeIndicatorIncrease();
+        }
+        if (doScaleRangeIndicatorDecrease)
+        {
+            ScaleRangeIndicatorDecrease();
         }
     }
 
@@ -73,13 +79,16 @@ public class ButtonPress : MonoBehaviour
 
     void StartIndicatorScaleIncrease()
     {
+        rangeIndicator.SetActive(false);
+        doScaleRangeIndicatorDecrease = false;
+        rangeIndicator.transform.localScale = Vector3.one;
         rangeIndicator.transform.position = this.transform.position;
         rangeIndicator.SetActive(true);
         lerpScaleModifier = 0;
-        doScaleRangeIndicator = true;
+        doScaleRangeIndicatorIncrease = true;
     }
 
-    void ScaleRangeIndicator()
+    void ScaleRangeIndicatorIncrease()
     {
         lerpScaleModifier += Mathf.Clamp01(rangeIndicatorScaleRate * Time.deltaTime);
         print("ScaleMod = " + lerpScaleModifier);
@@ -88,8 +97,28 @@ public class ButtonPress : MonoBehaviour
         rangeIndicator.transform.localScale = newScale;
         if (lerpScaleModifier >= 1) 
         { 
-            doScaleRangeIndicator = false;
+            doScaleRangeIndicatorIncrease = false;
+            Invoke("StartIndicatorScaleDecrease", rangeIndicatorScaleHesitate); 
         }
     }
 
+    void StartIndicatorScaleDecrease()
+    {
+        lerpScaleModifier = 1;
+        doScaleRangeIndicatorDecrease = true;
+    }
+
+    void ScaleRangeIndicatorDecrease()
+    {
+        lerpScaleModifier -= Mathf.Clamp01(rangeIndicatorScaleRate * Time.deltaTime);
+        print("ScaleMod Decrease = " + lerpScaleModifier);
+        var newScale = new Vector3(Mathf.Lerp(1, buddyRange, lerpScaleModifier), rangeIndicatorHeight, Mathf.Lerp(1, buddyRange, lerpScaleModifier));
+        print("RangeIndicator Decrease newScale = " + newScale);
+        rangeIndicator.transform.localScale = newScale;
+        if (lerpScaleModifier <= 0)
+        {
+            rangeIndicator.SetActive(false);
+            doScaleRangeIndicatorDecrease = false;
+        }
+    }
 }
