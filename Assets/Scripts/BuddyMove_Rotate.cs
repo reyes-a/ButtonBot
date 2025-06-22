@@ -72,7 +72,7 @@ public class BuddyMove_Rotate : MonoBehaviour, IBuddy
     {
         lerpMovementValue += Mathf.Clamp01(rateOfRotation * Time.fixedDeltaTime); // calculate new lerp value
         //transform.rotation =  new Quaternion(Mathf.Lerp(startRot.x, targetRot.x, lerpMovementValue), Mathf.Lerp(startRot.y, targetRot.y, lerpMovementValue), Mathf.Lerp(startRot.z, targetRot.z, lerpMovementValue), 5.91348e-43f);
-        print(this.gameObject.name + " lerp value = " + lerpMovementValue);
+        //print(this.gameObject.name + " lerp value = " + lerpMovementValue);
         //transform.Rotate(Vector3.Lerp(startRot, targetRot, lerpMovementValue), Space.Self);
         transform.localRotation = Quaternion.Euler (Vector3.Lerp(startRot, targetRot, lerpMovementValue));
         if (lerpMovementValue >= 1) { doRotateToTarget = false; } // if target pos reached, stop movement

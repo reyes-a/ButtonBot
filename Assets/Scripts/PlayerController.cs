@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -12,14 +13,22 @@ public class PlayerController : MonoBehaviour
     private bool isKeyDown = false;
     [SerializeField] Rigidbody rb; //It means rigidbody
 
-    [Header("Raycast")]
+    [Header("Ground Check")]
     [SerializeField] float raycastLength = 1.5f;
     private Vector3[] raycastDirections = new Vector3[] {Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back};
+    //[SerializeField] SideCollider[] sideColliders;
+    [SerializeField] SideCollider sideCollider;
 
     [Header("UI")]
     [SerializeField] float maxHold = 1f;
     [SerializeField] float holdDuration;
     [SerializeField] MoveChargeUI moveChargeUI;
+
+    bool applyForceRight = false;
+    bool applyForceLeft = false;
+    bool applyForceForward = false;
+    bool applyForceBackward = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -55,77 +64,130 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void MovementInput()
     {
-            //Check if player wants to go forward (z) and is on ground
-            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && OnGroundCheckRaycast())
-            {
-
-                holdDuration = 0f;
-                isKeyDown = true;
-                GetComponentInChildren<ButtonPress>().ResetButton(); //Allow the button to be pressed again
-            }
-            //When player stops holding button, move
-            if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow)) && OnGroundCheckRaycast())
+        //Check if player wants to go forward (z) and is on ground
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && CanMoveCheck())
+        {
+            holdDuration = 0f;
+            isKeyDown = true;
+            GetComponentInChildren<ButtonPress>().ResetButton(); //Allow the button to be pressed again
+            applyForceForward = true;
+        }
+        //When player stops holding button, move
+        if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            if (applyForceForward)
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration); //Local variable. Lerps are for guesstimation between values
                 rb.AddForceAtPosition(new Vector3(0f, 0f, force), transform.position + new Vector3(0f, 1.5f, 0f)); //It wants a Vector3, and I have floats, so I have to make a new one
+                applyForceForward = false;
             }
+        }
 
-            //(-z)
-            if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && OnGroundCheckRaycast())
-            {
-                holdDuration = 0f;
-                isKeyDown = true;
-                GetComponentInChildren<ButtonPress>().ResetButton();
-            }
-            if ((Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)) && OnGroundCheckRaycast())
+        //(-z)
+        if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && CanMoveCheck())
+        {
+            holdDuration = 0f;
+            isKeyDown = true;
+            GetComponentInChildren<ButtonPress>().ResetButton();
+            applyForceBackward = true;
+        }
+        if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            if (applyForceBackward)
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
                 rb.AddForceAtPosition(new Vector3(0f, 0f, -force), transform.position + new Vector3(0f, 1.5f, 0f));
+                applyForceBackward = false;
             }
+        }
 
-            //(-x)
-            if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && OnGroundCheckRaycast())
-            {
-                holdDuration = 0f;
-                isKeyDown = true;
-                GetComponentInChildren<ButtonPress>().ResetButton();
-            }
-            if ((Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow)) && OnGroundCheckRaycast())
+        //(-x)
+        if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && CanMoveCheck())
+        {
+            holdDuration = 0f;
+            isKeyDown = true;
+            GetComponentInChildren<ButtonPress>().ResetButton();
+            applyForceLeft = true;
+        }
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            if (applyForceLeft)
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
                 rb.AddForceAtPosition(new Vector3(-force, 0f, 0f), transform.position + new Vector3(0f, 1.5f, 0f));
+                applyForceLeft = false;
             }
+        }
 
-            //(x)
-            if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && OnGroundCheckRaycast())
-            {
-                holdDuration = 0f;
-                isKeyDown = true;
-                GetComponentInChildren<ButtonPress>().ResetButton();
-            }
-            if ((Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow)) && OnGroundCheckRaycast())
+        //(x)
+        if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && CanMoveCheck())
+        {
+            holdDuration = 0f;
+            isKeyDown = true;
+            GetComponentInChildren<ButtonPress>().ResetButton();
+            applyForceRight = true;
+        }
+        if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
+        {
+            if (applyForceRight)
             {
                 isKeyDown = false;
                 float force = Mathf.Lerp(minForce, maxForce, holdDuration);
                 rb.AddForceAtPosition(new Vector3(force, 0f, 0f), transform.position + new Vector3(0f, 1.5f, 0f));
-            }
-    }
-
-    bool OnGroundCheckRaycast()
-    {
-        //Check if player is touching the ground from all six faces
-        foreach (var direction in raycastDirections)
-        {
-            if (Physics.Raycast(transform.position, direction, raycastLength))
-            { 
-                print("Contact");
-                return true;
+                applyForceRight = false;
             }
         }
-        //print("No contact");
+    }
+
+    //bool OnGroundCheckRaycast()
+    //{
+    //    //Check if player is touching the ground from all six faces
+    //    foreach (var direction in raycastDirections)
+    //    {
+    //        if (Physics.Raycast(transform.position, direction, raycastLength))
+    //        { 
+    //            print("Contact");
+    //            return true;
+    //        }
+    //    }
+    //    //print("No contact");
+    //    return false;
+    //}
+
+    bool OnGroundCheckColliders()
+    {
+        //foreach (var side in sideColliders)
+        //{
+        //    if (side.isTouching == true)
+        //    {
+        //        print("groundCheckCollider true: " + side.name );
+        //        return true;
+        //    }
+        //}
+        //print("groundCheckCollider returning false");
+        //return false;
+
+        if (sideCollider.isTouching == true)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    
+
+    bool CanMoveCheck()
+    {
+        print("Start CanMoveCheck");
+        if (OnGroundCheckColliders() && rb.velocity.magnitude < 0.1f) 
+        { 
+            print("player speed = " + rb.velocity.magnitude); return true; 
+        }
+
+        print("moveCheckReturnFalse");
         return false;
     }
 }
