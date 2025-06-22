@@ -26,13 +26,16 @@ public class ButtonPress : MonoBehaviour
     //When player lands on the button face, stop it from happening again until reset
     void OnTriggerEnter(Collider other)
     {
-        print("Trigger Enter");
-        if (shouldButtonActivate == true)
+        if (!other.CompareTag("Player"))
         {
-            shouldButtonActivate = false;
-            print("Button pressed!");
-            CallBuddy();
-        }
+            //print("Trigger Enter");
+            if (shouldButtonActivate == true)
+            {
+                shouldButtonActivate = false;
+                print("Button pressed!");
+                CallBuddy();
+            }
+        } 
     }
 
     //Allow for the button to be pressed again
