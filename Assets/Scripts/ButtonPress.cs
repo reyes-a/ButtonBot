@@ -10,17 +10,26 @@ public class ButtonPress : MonoBehaviour
 
     [Header("CallBuddy")]
     public float buddyRange = 20f;
+    [SerializeField] GameObject rangeIndicator;
+    float lerpScaleModifier = 0;
+    [SerializeField] float rangeIndicatorScaleRate;
+    [SerializeField] float rangeIndicatorHeight;
+    bool doScaleRangeIndicator = false;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        rangeIndicator.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (doScaleRangeIndicator)
+        {
+            ScaleRangeIndicator();
+        }
     }
 
     //When player lands on the button face, stop it from happening again until reset
@@ -28,10 +37,13 @@ public class ButtonPress : MonoBehaviour
     {
         if (!other.CompareTag("Player"))
         {
+
             //print("Trigger Enter");
             if (shouldButtonActivate == true)
             {
                 shouldButtonActivate = false;
+                StartIndicatorScaleIncrease();
+
                 print("Button pressed!");
                 CallBuddy();
             }
@@ -58,4 +70,26 @@ public class ButtonPress : MonoBehaviour
             }
         }
     }
+
+    void StartIndicatorScaleIncrease()
+    {
+        rangeIndicator.transform.position = this.transform.position;
+        rangeIndicator.SetActive(true);
+        lerpScaleModifier = 0;
+        doScaleRangeIndicator = true;
+    }
+
+    void ScaleRangeIndicator()
+    {
+        lerpScaleModifier += Mathf.Clamp01(rangeIndicatorScaleRate * Time.deltaTime);
+        print("ScaleMod = " + lerpScaleModifier);
+        var newScale = new Vector3(Mathf.Lerp(1, buddyRange, lerpScaleModifier), rangeIndicatorHeight, Mathf.Lerp(1, buddyRange, lerpScaleModifier));
+        print("RangeIndicator newScale = " + newScale);
+        rangeIndicator.transform.localScale = newScale;
+        if (lerpScaleModifier >= 1) 
+        { 
+            doScaleRangeIndicator = false;
+        }
+    }
+
 }

@@ -1021,7 +1021,7 @@ MonoBehaviour:
   MovementPositions:
   - {x: -7.2, y: 2.37, z: 93.84}
   - {x: -7.2, y: 5.85, z: 93.84}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &42122357
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1995,7 +1995,7 @@ MonoBehaviour:
   MovementPositions:
   - {x: -7.2, y: 2.37, z: 93.84}
   - {x: -7.2, y: 5.85, z: 93.84}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &65937876
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2255,7 +2255,7 @@ MonoBehaviour:
   MovementPositions:
   - {x: -13.17, y: 1.47, z: -14.28}
   - {x: -6.98, y: 1.47, z: -14.28}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &68767277
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3154,7 +3154,7 @@ MonoBehaviour:
   - {x: 2.01, y: 6.49, z: 66.71}
   - {x: 6.05, y: 6.49, z: 66.71}
   - {x: 10.01, y: 6.49, z: 66.71}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &115301871
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3861,7 +3861,7 @@ MonoBehaviour:
   - {x: -5.96, y: 8.46, z: 66.92}
   - {x: -1.94, y: 8.46, z: 70.9}
   - {x: -13.99, y: 8.46, z: 58.83}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &156021231
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9303,7 +9303,7 @@ MonoBehaviour:
   MovementPositions:
   - {x: 7.31, y: 2.42, z: 102.61}
   - {x: 7.31, y: 6, z: 102.61}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &410678752
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13230,7 +13230,7 @@ MonoBehaviour:
   - {x: 6.26, y: 7.134, z: 49.46}
   - {x: 10.3, y: 7.134, z: 57.57}
   - {x: 14.42, y: 7.134, z: 53.85}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &554853512
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13755,7 +13755,7 @@ MonoBehaviour:
   MovementPositions:
   - {x: 21.12, y: 1.47, z: -15.72}
   - {x: 14.03, y: 1.47, z: -15.72}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &579839051
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17267,7 +17267,7 @@ MonoBehaviour:
   MovementPositions:
   - {x: 6.26, y: 2.43, z: 124.09}
   - {x: 6.26, y: 4.69, z: 124.09}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &686766794
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17985,6 +17985,14 @@ PrefabInstance:
     - target: {fileID: 663375838004751738, guid: 1fc6f7ef3d3985e468047e46366fe397, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132693971488091920, guid: 1fc6f7ef3d3985e468047e46366fe397, type: 3}
+      propertyPath: rangeIndicatorHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132693971488091920, guid: 1fc6f7ef3d3985e468047e46366fe397, type: 3}
+      propertyPath: rangeIndicatorScaleRate
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4111200515349835523, guid: 1fc6f7ef3d3985e468047e46366fe397, type: 3}
       propertyPath: m_Name
@@ -19104,7 +19112,7 @@ MonoBehaviour:
   - {x: 1.79, y: 7.33, z: 76.18}
   - {x: -5.87, y: 7.33, z: 71.49}
   - {x: -14.23, y: 7.33, z: 75.82}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &768899871
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23536,7 +23544,7 @@ MonoBehaviour:
   - {x: -2.08, y: 6.51, z: 50.874}
   - {x: -6.1, y: 6.51, z: 50.874}
   - {x: -10.02, y: 6.51, z: 50.874}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &974394468
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31602,7 +31610,7 @@ MonoBehaviour:
   - {x: 1.9, y: 6.61, z: 71.03}
   - {x: 1.9, y: 6.61, z: 78.7}
   - {x: -14.18, y: 6.61, z: 78.94}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &1303997763
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36583,7 +36591,7 @@ MonoBehaviour:
   MovementPositions:
   - {x: -6.99, y: 1.47, z: -11.21}
   - {x: -6.99, y: 1.47, z: -7.28}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &1474099206
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38738,7 +38746,7 @@ MonoBehaviour:
   MovementPositions:
   - {x: 14.27, y: 1.47, z: -19.05}
   - {x: 20.9, y: 1.47, z: -19.05}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &1574901100
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -41245,7 +41253,7 @@ MonoBehaviour:
   MovementPositions:
   - {x: -7.2, y: 2.37, z: 93.84}
   - {x: -7.2, y: 5.85, z: 93.84}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &1673500131
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -44288,7 +44296,7 @@ MonoBehaviour:
   MovementPositions:
   - {x: -1.99, y: 4.9, z: 93.84}
   - {x: -1.99, y: 2.42, z: 93.84}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &1800550657
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -53096,7 +53104,7 @@ MonoBehaviour:
   MovementPositions:
   - {x: -7.2, y: 5.85, z: 106.55}
   - {x: -7.2, y: 2.46, z: 106.55}
-  currentPos: 0
+  rateOfMovement: 0.1
 --- !u!65 &2132802254
 BoxCollider:
   m_ObjectHideFlags: 0
