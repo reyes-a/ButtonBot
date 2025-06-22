@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float minForce = 150f;
     [SerializeField] float maxForce = 650f;
     [SerializeField] float incrementValue = 0.5f;
+    [SerializeField] float velocityCanMoveLimit = 1f;
     private bool isKeyDown = false;
     [SerializeField] Rigidbody rb; //It means rigidbody
 
@@ -182,7 +183,7 @@ public class PlayerController : MonoBehaviour
     bool CanMoveCheck()
     {
         print("Start CanMoveCheck");
-        if (OnGroundCheckColliders() && rb.velocity.magnitude < 0.1f) 
+        if (OnGroundCheckColliders() && rb.velocity.magnitude < velocityCanMoveLimit) 
         { 
             print("player speed = " + rb.velocity.magnitude); return true; 
         }
