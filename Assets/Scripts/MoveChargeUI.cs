@@ -1,25 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MoveChargeUI : MonoBehaviour
 {
-    public float hold, maxHold, width, height;
+    [Header("UI")]
+    public float hold = 0f;
+    public float maxHold = 1f;
+    public float barWidth = 30f;
+    public float barHeight = 100f;
+    [SerializeField] RectTransform moveChargeBar;
 
-    [SerializeField]
-    private RectTransform moveChargeBar;
-
-    public void SetMaxHold(float MaxHold)
+    void Start()
     {
-        maxHold = MaxHold;
+        
     }
 
-    public void SetHold(float Hold)
+    public void SetHold(float currentCharge)
     {
-        hold = Hold;
-        float newHeight = (hold / maxHold) * height;
+        currentCharge = Mathf.Lerp(hold, barHeight, currentCharge);
 
-        moveChargeBar.sizeDelta = new Vector2(width, newHeight);
+        moveChargeBar.sizeDelta = new Vector2(barWidth, currentCharge);
     }
 }

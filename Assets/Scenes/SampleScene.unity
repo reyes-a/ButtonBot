@@ -653,9 +653,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hold: 0
-  maxHold: 0
-  width: 30
-  height: 100
+  maxHold: 1
+  barWidth: 30
+  barHeight: 100
   moveChargeBar: {fileID: 449891888}
 --- !u!114 &581003781
 MonoBehaviour:
@@ -965,6 +965,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5157263838561757437, guid: 3e8ef7e6acf67fa49bf5d483b59ee1a6, type: 3}
+      propertyPath: moveChargeUI
+      value: 
+      objectReference: {fileID: 581003780}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

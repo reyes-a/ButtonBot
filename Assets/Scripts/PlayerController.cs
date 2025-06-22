@@ -17,15 +17,14 @@ public class PlayerController : MonoBehaviour
     private Vector3[] raycastDirections = new Vector3[] {Vector3.up, Vector3.down, Vector3.left, Vector3.right, Vector3.forward, Vector3.back};
 
     [Header("UI")]
-    [SerializeField]
-    private MoveChargeUI moveCharge;
-    public float maxHold = 1f;
-    public float holdDuration;
+    [SerializeField] float maxHold = 1f;
+    [SerializeField] float holdDuration;
+    [SerializeField] MoveChargeUI moveChargeUI;
 
     // Start is called before the first frame update
     void Start()
     {
-        //moveCharge.SetMaxHold(maxHold);
+        
     }
 
     // Update is called once per frame
@@ -40,6 +39,7 @@ public class PlayerController : MonoBehaviour
         if (isKeyDown == true)
         {
             holdDuration = Mathf.Clamp(holdDuration + (incrementValue * Time.deltaTime), 0f, 1f);
+            moveChargeUI.SetHold(holdDuration);
             //print(holdDuration);
 
             if (holdDuration >= maxHold)
@@ -127,13 +127,5 @@ public class PlayerController : MonoBehaviour
         }
         //print("No contact");
         return false;
-    }
-
-    public void SetMoveCharge(float holdChange)
-    {
-        holdDuration += holdChange;
-        holdDuration = Mathf.Clamp(holdDuration, 0f, maxHold);
-
-        moveCharge.SetHold(holdDuration);
     }
 }
